@@ -13,7 +13,7 @@ This function allows a student to cast their student. It first verifies the mark
 
 * marksVerify(uint _marks) public pure
 
-This function checks if the student meets the age requirement of 50 marks or greater. If the student's marks is less than 50, the function reverts with the message "Student is eligible for attendance". This function is marked as pure since it does not read or modify the state.
+This function checks if the student meets the age requirement of 50 marks or greater. If the student's marks is less than 50, the function reverts with the message "Student is not eligible for attendance". This function is marked as pure since it does not read or modify the state.
 ## Usage
 Deploy the contract to the Ethereum network using an Ethereum development environment like Remix. After deployment, you can interact with the contract by calling the attendance function with the student's identifier and marks.
 ## Error handling
