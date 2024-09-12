@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-contract voting_simulation {
+contract attendance_simulation {
     mapping(string => uint) public attendanceCount;
     mapping(string => bool) public present;
 
