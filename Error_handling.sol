@@ -17,7 +17,7 @@ contract voting_simulation {
     }
 
     function marksVerify(uint _marks) public pure {
-        if (_marks> 50) {
+        if (_marks< 50) {
             revert("Student is eligible for attendance");
         }
     }
