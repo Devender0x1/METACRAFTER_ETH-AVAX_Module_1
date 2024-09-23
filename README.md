@@ -1,28 +1,69 @@
-#Attendance Simulation Smart Contract
-This smart contract implements a simple attendance simulation on the Ethereum blockchain using Solidity. The contract allows users to cast their attendance, ensuring they meet the age requirement and have not already present.
+# Student Age Finder Smart Contract
+
+This smart contract allows users to register students with their birth years and retrieve their current age based on the stored birth year. It provides a simple way to keep track of student ages on the Ethereum blockchain using Solidity.
+
 ## Prerequisites
-* Solidity version ^0.8.18.
+* Solidity version ^0.8.0.
 * An Ethereum development environment such as Hardhat, Truffle, or Remix.
+
 ## Contract Explanation
+
 ### State Variables
-The attendanceCount mapping tracks the number of student each student has cast, while the hasVoted mapping keeps a record of whether a voter has already voted or not.
+The `studentBirthYears` mapping stores the birth year of each registered student by name. The contract ensures that each student is uniquely identified by their name.
+
 ### Functions
-* function attendance(string memory student, uint _marks) external 
 
-This function allows a student to cast their student. It first verifies the marks of the student using the marksVerify function. Then, it checks if the student has already student using the present mapping. If the student has not marked present before and meets the marks requirement, the function increments the student count for the student and sets the student's status to "present" in the present mapping. Finally, it uses an assertion to ensure the student count is incremented correctly.
+#### 1. `registerStudent(string memory _name, uint256 _birthYear) public`
+This function allows a student to be registered with their name and birth year. It ensures that the student's name has not already been registered before assigning the birth year.
 
-* marksVerify(uint _marks) public pure
+* **Parameters**:
+    - `_name`: The student's name (string).
+    - `_birthYear`: The student's birth year (uint256).
 
-This function checks if the student meets the age requirement of 50 marks or greater. If the student's marks is less than 50, the function reverts with the message "Student is not eligible for attendance". This function is marked as pure since it does not read or modify the state.
+* **Error Handling**:
+    - Uses `require` to ensure the student is not already registered. If the name is already in the system, the transaction is reverted with the message "Student already exists".
+
+#### 2. `getStudentAge(string memory _name) public view returns (uint256)`
+This function calculates the student's current age based on the current block timestamp and the stored birth year.
+
+* **Parameters**:
+    - `_name`: The student's name (string).
+
+* **Returns**:
+    - The student's current age (uint256).
+
+* **Error Handling**:
+    - Uses `require` to ensure the student is already registered. If the student is not found, the transaction is reverted with the message "Student not found".
+
+### Age Calculation
+The current year is calculated by converting the block timestamp (Unix time) into years. The birth year of the student is then subtracted from the current year to determine the student's age.
+
 ## Usage
-Deploy the contract to the Ethereum network using an Ethereum development environment like Remix. After deployment, you can interact with the contract by calling the attendance function with the student's identifier and marks.
-## Error handling
-The contract uses require, revert, and assert statements to handle errors and validate conditions throughout the attendance process.
-### Function with error handling
-The attendance  function handles errors by calling the marksVerify function to ensure the student meets the marks requirement. It then checks if the student has already present using require and ensures the attendance count is incremented correctly with assert. The marksVerify function verifies the marks of the student and reverts the transaction if the student marks is under 50.
-### Error handling statements
-* require: Ensures conditions are met before proceeding. If the condition is not met, it reverts the transaction with an error message: "You have marked present".
-* revert: Explicitly reverts the transaction with an error message if a condition is not satisfied: "Student is eligible for attendance".
-* assert: Checks for conditions that should never be false. If the condition is false, it indicates a critical error and reverts the transaction to ensure the student count is valid.
+1. **Deploy the Contract**: Use an Ethereum development environment such as Remix to compile and deploy the contract to a test network.
+2. **Register a Student**: After deployment, call the `registerStudent` function with a student's name and birth year to register them in the contract.
+    ```solidity
+    registerStudent("John Doe", 2005);
+    ```
+3. **Retrieve the Student's Age**: Use the `getStudentAge` function to retrieve the age of a registered student.
+    ```solidity
+    getStudentAge("John Doe");
+    ```
+
+## Error Handling
+
+The contract uses `require` statements to validate conditions and handle errors during the registration and age retrieval process.
+
+### Function with Error Handling
+The `registerStudent` function checks whether the student is already registered using the `require` statement, and the `getStudentAge` function verifies that the student exists in the system before calculating the age.
+
+### Error Handling Statements
+* **require**: Ensures conditions are met before proceeding. If the condition fails:
+    - In `registerStudent`: "Student already exists".
+    - In `getStudentAge`: "Student not found".
+
+## License
+
+This project is licensed under the MIT License.
+
 ## Author
 Devender Singh Dhankhar
