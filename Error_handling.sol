@@ -1,24 +1,17 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.0;
 
-contract attendance_simulation {
-    mapping(string => uint) public attendanceCount;
-    mapping(string => bool) public present;
+contract StudentAgeFinder {
+    mapping(string => uint256) private studentBirthYears;
 
-    function attendance(string memory student, uint _marks) external {
-        marksVerify(_marks);
-
-        require(!present[student], "You have marked present");
-
-        attendanceCount[student] += 1;
-        present[student] = true;
-
-        assert(attendanceCount[student] > 0);
+    function registerStudent(string memory _name, uint256 _birthYear) public {
+        require(studentBirthYears[_name] == 0, "Student already exists");
+        studentBirthYears[_name] = _birthYear;
     }
 
-    function marksVerify(uint _marks) public pure {
-        if (_marks< 50) {
-            revert("Student is eligible for attendance");
-        }
+    function getStudentAge(string memory _name) public view returns (uint256) {
+        require(studentBirthYears[_name] != 0, "Student not found");
+        uint256 currentYear = (block.timestamp / 365 days) + 1970;
+        return currentYear - studentBirthYears[_name];
     }
 }
