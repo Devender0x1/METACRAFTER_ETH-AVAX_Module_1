@@ -61,9 +61,5 @@ The `registerStudent` function checks whether the student is already registered 
     - In `registerStudent`: "Student already exists".
     - In `getStudentAge`: "Student not found".
 
-## License
-
-This project is licensed under the MIT License.
-
 ## Author
 Devender Singh Dhankhar
